@@ -1249,7 +1249,7 @@ This positive correlation may reflect more robust labor reporting in highly elec
 > This sounds counterintuitive, but more developed, electrified countries tend to have better systems for tracking and recording unemployment. 
 > So the number looks higher simply because it's being measured more accurately.
 
-    """)
+""")
 
 # ─────────────────────────────────────────────
 # Footer
