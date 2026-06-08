@@ -1,6 +1,7 @@
 """
-SDG 8 – Youth Unemployment Dashboard  (Enhanced UI)
+SDG 8 – Youth Unemployment Dashboard  (Premium UI v3)
 =====================================================
+Run with:  streamlit run app.py
 """
 
 import streamlit as st
@@ -49,72 +50,285 @@ df = df.rename(columns={
 # ─────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@300;400;500&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&display=swap');
 
-/* ── Reset & base ── */
-*, *::before, *::after { box-sizing: border-box; }
+/* ════════════════════════════════════════
+   RESET & BASE
+════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; }
 
 html, body, [class*="css"] {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    color: #e2e8f0;
+    color: #dde3ee;
     font-size: 15px;
-    line-height: 1.6;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* ── App background – layered mesh gradient ── */
+/* ════════════════════════════════════════
+   APP SHELL — deep navy cosmos
+════════════════════════════════════════ */
 .stApp {
-    background:
-        radial-gradient(ellipse 80% 50% at 10% 0%,   rgba(56,189,248,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 90% 10%,  rgba(168,85,247,0.12) 0%, transparent 55%),
-        radial-gradient(ellipse 50% 60% at 50% 90%,  rgba(20,184,166,0.10) 0%, transparent 60%),
-        linear-gradient(160deg, #080c14 0%, #0d1117 45%, #06090f 100%);
+    background-color: #060b14;
+    background-image:
+        radial-gradient(ellipse 110% 55% at 5%  0%,   rgba(14,165,233,0.13)  0%, transparent 55%),
+        radial-gradient(ellipse  70% 45% at 95% 5%,   rgba(99, 102,241,0.11) 0%, transparent 50%),
+        radial-gradient(ellipse  60% 70% at 50% 100%, rgba(20,184,166,0.09)  0%, transparent 55%),
+        radial-gradient(ellipse  40% 35% at 80% 55%,  rgba(244,63,94,0.06)   0%, transparent 50%);
     min-height: 100vh;
 }
 
-/* ── Main container ── */
+/* ════════════════════════════════════════
+   MAIN CONTAINER
+════════════════════════════════════════ */
 .main .block-container {
-    padding: 1.8rem 2.5rem 3rem;
-    max-width: 97%;
+    padding: 0 2.4rem 3.5rem;
+    max-width: 98%;
 }
 
-/* ── Sidebar ── */
+/* ════════════════════════════════════════
+   SIDEBAR
+════════════════════════════════════════ */
 section[data-testid="stSidebar"] {
-    background: rgba(8, 12, 22, 0.96) !important;
-    border-right: 1px solid rgba(56,189,248,0.15) !important;
+    background: linear-gradient(180deg, #07101f 0%, #060d1a 100%) !important;
+    border-right: 1px solid rgba(14,165,233,0.12) !important;
+    box-shadow: 4px 0 32px rgba(0,0,0,0.5);
 }
-section[data-testid="stSidebar"] > div { padding-top: 1.2rem; }
+section[data-testid="stSidebar"] > div {
+    padding-top: 1rem;
+}
+
+/* ── Sidebar brand block ── */
+.sidebar-brand {
+    padding: 0.5rem 0.8rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 0.8rem;
+}
+.sidebar-brand-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #f0f6ff;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin-bottom: 2px;
+}
+.sidebar-brand-sub {
+    font-size: 0.68rem;
+    color: #4a6080;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.sidebar-sdg-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 8px;
+    background: linear-gradient(135deg, rgba(20,184,166,0.18), rgba(14,165,233,0.12));
+    border: 1px solid rgba(20,184,166,0.28);
+    border-radius: 6px;
+    padding: 3px 9px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #2dd4bf;
+}
 
 /* ── Sidebar nav buttons ── */
 section[data-testid="stSidebar"] button {
     width: 100% !important;
-    padding: 0.75rem 1rem !important;
-    margin-bottom: 4px !important;
+    padding: 0.72rem 1rem !important;
+    margin-bottom: 3px !important;
     font-family: 'Plus Jakarta Sans', sans-serif !important;
-    font-size: 0.9rem !important;
+    font-size: 0.875rem !important;
     font-weight: 500 !important;
-    letter-spacing: 0em !important;
-    border-radius: 10px !important;
-    border: 1px solid rgba(255,255,255,0.06) !important;
-    background: rgba(255,255,255,0.04) !important;
-    color: #94a3b8 !important;
-    transition: all 0.2s ease !important;
+    letter-spacing: 0 !important;
+    border-radius: 9px !important;
+    border: 1px solid rgba(255,255,255,0.045) !important;
+    background: rgba(255,255,255,0.03) !important;
+    color: #7a90a8 !important;
+    transition: all 0.18s cubic-bezier(0.4,0,0.2,1) !important;
     text-align: left !important;
 }
 section[data-testid="stSidebar"] button:hover {
-    background: rgba(56,189,248,0.10) !important;
-    border-color: rgba(56,189,248,0.25) !important;
-    color: #e2e8f0 !important;
-    transform: translateX(3px) !important;
+    background: rgba(14,165,233,0.09) !important;
+    border-color: rgba(14,165,233,0.22) !important;
+    color: #e2eaf4 !important;
+    transform: translateX(4px) !important;
+    box-shadow: 0 0 14px rgba(14,165,233,0.08) !important;
 }
 
-/* ── Metric cards ── */
+/* ── Sidebar info badges ── */
+.info-badge {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 9px;
+    padding: 0.52rem 0.85rem;
+    font-size: 0.78rem;
+    color: #7a90a8;
+    line-height: 1.55;
+    margin-top: 5px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.info-badge strong { color: #b8cce0; font-weight: 600; }
+
+/* ════════════════════════════════════════
+   HERO BANNER  (image + overlay)
+════════════════════════════════════════ */
+.hero-wrapper {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 1.8rem;
+    border: 1px solid rgba(255,255,255,0.07);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.07);
+    min-height: 200px;
+}
+.hero-image {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1600&q=80&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center 35%;
+    filter: brightness(0.32) saturate(0.6);
+    z-index: 0;
+}
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(105deg, rgba(6,11,20,0.75) 0%, rgba(6,11,20,0.30) 55%, rgba(6,11,20,0.55) 100%),
+        linear-gradient(0deg, rgba(6,11,20,0.85) 0%, transparent 60%);
+    z-index: 1;
+}
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 2.2rem 2.4rem 2rem;
+}
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(20,184,166,0.14);
+    border: 1px solid rgba(20,184,166,0.30);
+    border-radius: 999px;
+    padding: 3px 12px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: #2dd4bf;
+    margin-bottom: 0.75rem;
+}
+.hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #f0f6ff;
+    line-height: 1.18;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.6);
+}
+.hero-title span {
+    color: #38bdf8;
+}
+.hero-sub {
+    font-size: 0.875rem;
+    color: #8da4be;
+    max-width: 580px;
+    line-height: 1.6;
+}
+.hero-divider {
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, #0ea5e9, #6366f1);
+    border-radius: 2px;
+    margin: 0.85rem 0;
+}
+
+/* ── Alternate hero for inner pages (no photo) ── */
+.page-hero {
+    background:
+        linear-gradient(135deg, rgba(14,165,233,0.09) 0%, rgba(99,102,241,0.08) 50%, rgba(20,184,166,0.06) 100%);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 18px;
+    padding: 1.75rem 2rem;
+    margin-bottom: 1.6rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+.page-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(14,165,233,0.4), rgba(99,102,241,0.4), transparent);
+}
+.page-hero::after {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(14,165,233,0.10) 0%, transparent 65%);
+    pointer-events: none;
+}
+.page-hero h1 {
+    font-family: 'Fraunces', serif !important;
+    font-size: 1.65rem !important;
+    font-weight: 600 !important;
+    color: #f0f6ff !important;
+    letter-spacing: -0.02em !important;
+    margin-bottom: 0.3rem !important;
+    -webkit-text-fill-color: #f0f6ff !important;
+}
+.page-hero p {
+    color: #7a90a8;
+    font-size: 0.875rem;
+    margin: 0;
+    line-height: 1.55;
+}
+
+/* ════════════════════════════════════════
+   SECTION LABELS
+════════════════════════════════════════ */
+.section-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(14,165,233,0.09);
+    border: 1px solid rgba(14,165,233,0.20);
+    border-radius: 999px;
+    padding: 4px 14px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #38bdf8;
+    margin-bottom: 0.9rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* ════════════════════════════════════════
+   METRIC CARDS
+════════════════════════════════════════ */
 div[data-testid="stMetric"] {
-    background: linear-gradient(135deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.025) 100%) !important;
-    border: 1px solid rgba(255,255,255,0.08) !important;
+    background: linear-gradient(145deg,
+        rgba(255,255,255,0.052) 0%,
+        rgba(255,255,255,0.022) 100%) !important;
+    border: 1px solid rgba(255,255,255,0.075) !important;
     border-radius: 16px !important;
-    padding: 1.1rem 1.3rem !important;
-    backdrop-filter: blur(20px);
-    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    padding: 1.15rem 1.35rem !important;
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    transition: transform 0.22s cubic-bezier(0.4,0,0.2,1),
+                box-shadow 0.22s cubic-bezier(0.4,0,0.2,1),
+                border-color 0.22s ease;
     position: relative;
     overflow: hidden;
 }
@@ -123,161 +337,168 @@ div[data-testid="stMetric"]::before {
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 2px;
-    background: linear-gradient(90deg, #38bdf8, #818cf8, #34d399);
-    opacity: 0.7;
+    background: linear-gradient(90deg, #0ea5e9, #6366f1, #14b8a6);
+    opacity: 0.65;
+    border-radius: 2px 2px 0 0;
+}
+div[data-testid="stMetric"]::after {
+    content: '';
+    position: absolute;
+    bottom: -30px; right: -30px;
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(14,165,233,0.07) 0%, transparent 70%);
+    pointer-events: none;
 }
 div[data-testid="stMetric"]:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(56,189,248,0.18);
-    border-color: rgba(56,189,248,0.22) !important;
+    transform: translateY(-5px);
+    box-shadow:
+        0 20px 48px rgba(0,0,0,0.5),
+        0 0 0 1px rgba(14,165,233,0.20),
+        0 0 28px rgba(14,165,233,0.08);
+    border-color: rgba(14,165,233,0.22) !important;
 }
 div[data-testid="stMetric"] label {
     font-family: 'Plus Jakarta Sans', sans-serif !important;
-    font-size: 0.78rem !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.04em !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
     text-transform: uppercase !important;
-    color: #94a3b8 !important;
+    color: #546a82 !important;
 }
 div[data-testid="stMetric"] [data-testid="stMetricValue"] {
     font-family: 'JetBrains Mono', monospace !important;
-    font-size: 1.6rem !important;
-    font-weight: 500 !important;
-    color: #f1f5f9 !important;
-    letter-spacing: -0.01em;
+    font-size: 1.62rem !important;
+    font-weight: 400 !important;
+    color: #eaf1fb !important;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
 }
 div[data-testid="stMetric"] [data-testid="stMetricDelta"] {
-    font-size: 0.8rem !important;
+    font-size: 0.78rem !important;
     font-family: 'Plus Jakarta Sans', sans-serif !important;
+    font-weight: 500 !important;
 }
 
-/* ── Charts ── */
+/* ════════════════════════════════════════
+   CHARTS
+════════════════════════════════════════ */
 .stPlotlyChart {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.065);
     border-radius: 18px;
-    padding: 14px;
-    backdrop-filter: blur(12px);
+    padding: 12px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.28);
+    transition: box-shadow 0.2s ease;
+}
+.stPlotlyChart:hover {
+    box-shadow: 0 12px 44px rgba(0,0,0,0.4), 0 0 0 1px rgba(14,165,233,0.10);
 }
 
-/* ── DataFrames ── */
+/* ════════════════════════════════════════
+   DATAFRAMES
+════════════════════════════════════════ */
 [data-testid="stDataFrame"] {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.065);
     border-radius: 16px;
     overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.22);
 }
 
-/* ── Selectbox & widgets ── */
+/* ════════════════════════════════════════
+   FORM CONTROLS
+════════════════════════════════════════ */
 div[data-testid="stSelectbox"] > div,
 div[data-testid="stMultiSelect"] > div {
-    background: rgba(255,255,255,0.05) !important;
+    background: rgba(255,255,255,0.045) !important;
     border-radius: 10px !important;
-    border: 1px solid rgba(255,255,255,0.10) !important;
+    border: 1px solid rgba(255,255,255,0.095) !important;
+}
+div[data-testid="stSlider"] { padding: 0.5rem 0; }
+label[data-testid="stCheckbox"] {
+    font-size: 0.875rem !important;
+    color: #b0c0d4 !important;
 }
 
-/* ── Slider ── */
-div[data-testid="stSlider"] { padding: 0.5rem 0; }
-
-/* ── Info / warning / success boxes ── */
+/* ════════════════════════════════════════
+   ALERTS
+════════════════════════════════════════ */
 .stAlert {
-    border-radius: 14px !important;
+    border-radius: 12px !important;
     border-left-width: 3px !important;
     font-family: 'Plus Jakarta Sans', sans-serif !important;
-    font-size: 0.9rem !important;
+    font-size: 0.875rem !important;
+    backdrop-filter: blur(12px);
 }
 
-/* ── Section headers ── */
+/* ════════════════════════════════════════
+   HEADINGS
+════════════════════════════════════════ */
 h1 {
-    font-family: 'Plus Jakarta Sans', sans-serif !important;
-    font-weight: 800 !important;
+    font-family: 'Fraunces', serif !important;
+    font-weight: 600 !important;
     font-size: 1.85rem !important;
-    letter-spacing: -0.02em !important;
-    color: #f1f5f9 !important;
+    letter-spacing: -0.025em !important;
+    color: #f0f6ff !important;
     margin-bottom: 0.15rem !important;
+    line-height: 1.2 !important;
 }
 h2 {
     font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-weight: 700 !important;
-    font-size: 1.25rem !important;
-    color: #cbd5e1 !important;
+    font-size: 1.2rem !important;
+    color: #c8d8ea !important;
     letter-spacing: -0.01em !important;
 }
 h3 {
     font-family: 'Plus Jakarta Sans', sans-serif !important;
     font-weight: 600 !important;
-    font-size: 0.85rem !important;
-    color: #94a3b8 !important;
-    letter-spacing: 0.05em !important;
+    font-size: 0.82rem !important;
+    color: #7a90a8 !important;
+    letter-spacing: 0.06em !important;
     text-transform: uppercase;
 }
 
-/* ── HR ── */
-hr { border-color: rgba(255,255,255,0.07) !important; margin: 1.2rem 0 !important; }
-
-/* ── Checkbox ── */
-label[data-testid="stCheckbox"] { font-size: 0.9rem !important; color: #cbd5e1 !important; }
-
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
-::-webkit-scrollbar-thumb { background: rgba(56,189,248,0.3); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(56,189,248,0.55); }
-
-/* ── Section divider pill ── */
-.section-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(56,189,248,0.10);
-    border: 1px solid rgba(56,189,248,0.22);
-    border-radius: 999px;
-    padding: 3px 14px;
-    font-size: 0.74rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #38bdf8;
-    margin-bottom: 0.8rem;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+/* ════════════════════════════════════════
+   DIVIDERS & MISC
+════════════════════════════════════════ */
+hr {
+    border: none !important;
+    border-top: 1px solid rgba(255,255,255,0.065) !important;
+    margin: 1.3rem 0 !important;
 }
 
-/* ── Page hero banner ── */
-.page-hero {
-    background: linear-gradient(135deg, rgba(56,189,248,0.08) 0%, rgba(129,140,248,0.08) 50%, rgba(52,211,153,0.06) 100%);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 20px;
-    padding: 1.6rem 2rem;
-    margin-bottom: 1.5rem;
-    position: relative;
-    overflow: hidden;
+/* ════════════════════════════════════════
+   SCROLLBAR
+════════════════════════════════════════ */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.025); }
+::-webkit-scrollbar-thumb {
+    background: rgba(14,165,233,0.28);
+    border-radius: 99px;
 }
-.page-hero::after {
-    content: '';
-    position: absolute;
-    top: -40px; right: -40px;
-    width: 200px; height: 200px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(56,189,248,0.12) 0%, transparent 70%);
-    pointer-events: none;
-}
-.page-hero h1 { font-size: 1.6rem !important; margin-bottom: 0.3rem !important; color: #f1f5f9 !important; -webkit-text-fill-color: #f1f5f9 !important; }
-.page-hero p  { color: #94a3b8; font-size: 0.9rem; margin: 0; line-height: 1.5; }
+::-webkit-scrollbar-thumb:hover { background: rgba(14,165,233,0.50); }
 
-/* ── Stat badge (for sidebar) ── */
+/* ════════════════════════════════════════
+   STAT BADGE  (sidebar)
+════════════════════════════════════════ */
 .stat-badge {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 10px;
-    padding: 0.55rem 0.9rem;
-    font-size: 0.8rem;
-    color: #94a3b8;
-    line-height: 1.5;
-    margin-top: 4px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.065);
+    border-radius: 9px;
+    padding: 0.52rem 0.85rem;
+    font-size: 0.78rem;
+    color: #7a90a8;
+    line-height: 1.55;
+    margin-top: 5px;
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
-.stat-badge span { color: #cbd5e1; font-weight: 700; }
+.stat-badge span { color: #b8cce0; font-weight: 700; }
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -286,25 +507,19 @@ label[data-testid="stCheckbox"] { font-size: 0.9rem !important; color: #cbd5e1 !
 # ─────────────────────────────────────────────
 with st.sidebar:
     st.markdown("""
-    <div style="padding:0.4rem 0.2rem 1rem;">
-        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.05rem;font-weight:800;
-                    color:#f1f5f9;
-                    letter-spacing:-0.01em;margin-bottom:2px;">
-            SDG 8 Dashboard
-        </div>
-        <div style="font-size:0.73rem;color:#64748b;letter-spacing:0.05em;text-transform:uppercase;
-                    font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;">Youth Unemployment Analysis</div>
+    <div class="sidebar-brand">
+        <div class="sidebar-brand-title">SDG 8 Dashboard</div>
+        <div class="sidebar-brand-sub">Youth Unemployment Analysis</div>
+        <div class="sidebar-sdg-badge">⚡ Decent Work &amp; Growth</div>
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown("---")
-
     nav_options = {
-        "dashboard":          "📈  Dashboard Overview",
-        "comparison":         "🌏  Country Comparison",
-        "trends":             "📉  Trend Analysis",
-        "forecasting":        "🔮  Unemployment Forecasting",
-        "regression_insights":"📐  Regression Insights",
+        "dashboard":           "📈  Dashboard Overview",
+        "comparison":          "🌏  Country Comparison",
+        "trends":              "📉  Trend Analysis",
+        "forecasting":         "🔮  Unemployment Forecasting",
+        "regression_insights": "📐  Regression Insights",
     }
 
     if 'navigation' not in st.session_state:
@@ -316,18 +531,10 @@ with st.sidebar:
 
     st.markdown("---")
     st.markdown("""
-    <div class="stat-badge">
-        <span>Data Source</span><br>World Bank WDI
-    </div>
-    <div class="stat-badge" style="margin-top:6px;">
-        <span>Region</span><br>East Asia &amp; Pacific
-    </div>
-    <div class="stat-badge" style="margin-top:6px;">
-        <span>Period</span><br>2014 – 2024
-    </div>
-    <div class="stat-badge" style="margin-top:6px;">
-        <span>Goal</span><br>SDG 8 · Decent Work &amp; Growth
-    </div>
+    <div class="stat-badge"><span>Data Source</span><br>World Bank WDI</div>
+    <div class="stat-badge" style="margin-top:5px;"><span>Region</span><br>East Asia &amp; Pacific</div>
+    <div class="stat-badge" style="margin-top:5px;"><span>Period</span><br>2014 – 2024</div>
+    <div class="stat-badge" style="margin-top:5px;"><span>Goal</span><br>SDG 8 · Decent Work &amp; Growth</div>
     """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
@@ -337,19 +544,37 @@ PLOT_LAYOUT = dict(
     template='plotly_dark',
     paper_bgcolor='rgba(0,0,0,0)',
     plot_bgcolor='rgba(0,0,0,0)',
-    font=dict(family='Plus Jakarta Sans, sans-serif', color='#94a3b8'),
-    margin=dict(l=50, r=30, t=50, b=50),
-    xaxis=dict(gridcolor='rgba(255,255,255,0.05)', zeroline=False,
-               title_font=dict(size=11, color='#64748b')),
-    yaxis=dict(gridcolor='rgba(255,255,255,0.05)', zeroline=False,
-               title_font=dict(size=11, color='#64748b')),
-    legend=dict(bgcolor='rgba(0,0,0,0)', font=dict(size=11)),
-    hoverlabel=dict(bgcolor='#0d1117', font_family='JetBrains Mono, monospace',
-                    font_size=12, bordercolor='rgba(255,255,255,0.15)'),
+    font=dict(family='Plus Jakarta Sans, sans-serif', color='#7a90a8', size=12),
+    margin=dict(l=52, r=28, t=52, b=48),
+    xaxis=dict(
+        gridcolor='rgba(255,255,255,0.045)', zeroline=False,
+        title_font=dict(size=11, color='#546a82'),
+        tickfont=dict(size=10, color='#546a82'),
+        linecolor='rgba(255,255,255,0.07)',
+    ),
+    yaxis=dict(
+        gridcolor='rgba(255,255,255,0.045)', zeroline=False,
+        title_font=dict(size=11, color='#546a82'),
+        tickfont=dict(size=10, color='#546a82'),
+        linecolor='rgba(255,255,255,0.07)',
+    ),
+    legend=dict(
+        bgcolor='rgba(6,11,20,0.7)',
+        bordercolor='rgba(255,255,255,0.07)',
+        borderwidth=1,
+        font=dict(size=11, color='#94a3b8'),
+    ),
+    hoverlabel=dict(
+        bgcolor='#0b1628',
+        font_family='JetBrains Mono, monospace',
+        font_size=12,
+        bordercolor='rgba(14,165,233,0.3)',
+        font_color='#dde3ee',
+    ),
 )
 
 COLOR_MAP = {
-    'Youth_Unemployment_Rate': '#f87171',
+    'Youth_Unemployment_Rate':  '#f87171',
     'GDP_Growth':               '#34d399',
     'Labor_Force_Participation':'#38bdf8',
     'Electricity_Access':       '#fb923c',
@@ -379,11 +604,20 @@ available_years = sorted(df["Year"].unique())
 # ─────────────────────────────────────────────────────────────────────────────
 if st.session_state.navigation == "dashboard":
 
-    # Hero
+    # ── Hero with background image ────────────────────────────────────
     st.markdown("""
-    <div class="page-hero">
-        <h1>📊 Youth Unemployment Dashboard</h1>
-        <p>East Asia &amp; Pacific Region · World Bank WDI · 2014–2024 · SDG 8: Decent Work &amp; Economic Growth</p>
+    <div class="hero-wrapper">
+        <div class="hero-image"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-eyebrow">🌏 East Asia &amp; Pacific · 2014–2024</div>
+            <div class="hero-title">Youth <span>Unemployment</span><br>Dashboard</div>
+            <div class="hero-divider"></div>
+            <div class="hero-sub">
+                Monitoring SDG 8 indicators across 29 countries — tracking the intersection of
+                economic growth, labour force participation, and youth opportunity.
+            </div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -480,7 +714,7 @@ if st.session_state.navigation == "dashboard":
                         line=dict(width=1.5, color='white'))
         )
         fig.update_layout(**PLOT_LAYOUT,
-                          title_font=dict(size=13, color='#cbd5e1'))
+                          title_font=dict(size=13, color='#c8d8ea'))
         st.plotly_chart(fig, use_container_width=True)
 
     with ch2:
@@ -490,7 +724,7 @@ if st.session_state.navigation == "dashboard":
                       title=f"{selected_country} – GDP Growth")
         fig2.update_coloraxes(showscale=False)
         fig2.update_layout(**PLOT_LAYOUT,
-                           title_font=dict(size=13, color='#cbd5e1'))
+                           title_font=dict(size=13, color='#c8d8ea'))
         st.plotly_chart(fig2, use_container_width=True)
 
     st.subheader("🔵 GDP Growth vs Youth Unemployment")
@@ -503,7 +737,7 @@ if st.session_state.navigation == "dashboard":
     fig3.update_traces(textposition="top center",
                        marker=dict(size=10, line=dict(width=1, color='rgba(255,255,255,0.2)')))
     fig3.update_layout(**PLOT_LAYOUT,
-                       title_font=dict(size=13, color='#cbd5e1'))
+                       title_font=dict(size=13, color='#c8d8ea'))
     st.plotly_chart(fig3, use_container_width=True)
 
 
@@ -614,7 +848,7 @@ elif st.session_state.navigation == "forecasting":
                             yaxis_title='Youth Unemployment Rate (%)',
                             hovermode='x unified',
                             title=dict(text=f"<b>{selected_fc}</b> – Forecast",
-                                       font=dict(size=13, color='#cbd5e1')))
+                                       font=dict(size=13, color='#c8d8ea')))
         st.plotly_chart(fig_f, use_container_width=True)
 
         # Table
@@ -703,14 +937,12 @@ elif st.session_state.navigation == "comparison":
                            line_color='rgba(255,255,255,0.25)')
         fig_line.update_layout(
             **PLOT_LAYOUT, height=470,
-            title_font=dict(size=13, color='#cbd5e1'),
+            title_font=dict(size=13, color='#c8d8ea'),
         )
-
         fig_line.update_layout(
-         legend=dict(orientation='h', y=1.04, x=0.5, xanchor='center',
+            legend=dict(orientation='h', y=1.04, x=0.5, xanchor='center',
                         bgcolor='rgba(0,0,0,0)')
-         )
-
+        )
         st.plotly_chart(fig_line, use_container_width=True)
 
         # Rankings table + bar side by side
@@ -745,7 +977,7 @@ elif st.session_state.navigation == "comparison":
             )
             fig_bar.update_coloraxes(showscale=False)
             fig_bar.update_layout(**PLOT_LAYOUT,
-                                  title_font=dict(size=12, color='#cbd5e1'))
+                                  title_font=dict(size=12, color='#c8d8ea'))
             st.plotly_chart(fig_bar, use_container_width=True)
 
     else:
@@ -816,19 +1048,19 @@ elif st.session_state.navigation == "trends":
                              text=f"Peak: {max_val:.2f}%",
                              showarrow=True, arrowhead=2,
                              arrowcolor=line_color,
-                             bgcolor='rgba(13,17,23,0.85)',
+                             bgcolor='rgba(11,22,40,0.90)',
                              font=dict(size=11, color=line_color))
         fig_t.add_annotation(x=min_year, y=min_val,
                              text=f"Low: {min_val:.2f}%",
                              showarrow=True, arrowhead=2,
-                             arrowcolor='#64748b',
-                             bgcolor='rgba(13,17,23,0.85)',
-                             font=dict(size=11, color='#94a3b8'))
+                             arrowcolor='#546a82',
+                             bgcolor='rgba(11,22,40,0.90)',
+                             font=dict(size=11, color='#7a90a8'))
 
         fig_t.update_layout(
             **PLOT_LAYOUT, height=460,
             title=dict(text=f"<b>{metric_label}</b> — {title_suffix} (2014–2024)",
-                       font=dict(size=13, color='#cbd5e1')),
+                       font=dict(size=13, color='#c8d8ea')),
             xaxis_title='Year',
             yaxis_title=f"{metric_label} (%)"
         )
@@ -869,7 +1101,7 @@ elif st.session_state.navigation == "trends":
                           line_color='rgba(255,255,255,0.25)', line_width=1.5)
         fig_yoy.update_coloraxes(showscale=False)
         fig_yoy.update_layout(**PLOT_LAYOUT,
-                              title_font=dict(size=12, color='#cbd5e1'))
+                              title_font=dict(size=12, color='#c8d8ea'))
         st.plotly_chart(fig_yoy, use_container_width=True)
 
     else:
@@ -997,7 +1229,7 @@ This positive correlation may reflect more robust labor reporting in highly elec
     fig_coef.add_hline(y=0, line_dash='dot',
                        line_color='rgba(255,255,255,0.25)', line_width=1.5)
     fig_coef.update_layout(**PLOT_LAYOUT, showlegend=False,
-                           title_font=dict(size=12, color='#cbd5e1'))
+                           title_font=dict(size=12, color='#c8d8ea'))
     st.plotly_chart(fig_coef, use_container_width=True)
 
     # ── Conclusion ───────────────────────────────────────────────────
@@ -1023,9 +1255,11 @@ This positive correlation may reflect more robust labor reporting in highly elec
 # ─────────────────────────────────────────────
 st.markdown("---")
 st.markdown(
-    "<p style='text-align:center;opacity:0.4;font-size:0.78rem;font-family:\"Plus Jakarta Sans\",sans-serif;'>"
-    "📊 Data: <a href='https://databank.worldbank.org/' target='_blank' style='color:#38bdf8;'>"
-    "World Bank WDI</a> &nbsp;·&nbsp; East Asia &amp; Pacific 2014–2024 &nbsp;·&nbsp; "
-    "SDG 8: Decent Work &amp; Economic Growth</p>",
+    "<p style='text-align:center;opacity:0.35;font-size:0.75rem;"
+    "font-family:\"Plus Jakarta Sans\",sans-serif;letter-spacing:0.03em;'>"
+    "📊 Data: <a href='https://databank.worldbank.org/' target='_blank' "
+    "style='color:#38bdf8;text-decoration:none;'>World Bank WDI</a>"
+    " &nbsp;·&nbsp; East Asia &amp; Pacific 2014–2024"
+    " &nbsp;·&nbsp; SDG 8: Decent Work &amp; Economic Growth</p>",
     unsafe_allow_html=True
 )
