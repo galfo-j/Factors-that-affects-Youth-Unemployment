@@ -1237,17 +1237,18 @@ This positive correlation may reflect more robust labor reporting in highly elec
     st.subheader("💡 Conclusion")
     st.markdown("""
 > The inferential modeling confirms that **macroeconomic growth (GDP) has a negligible impact**
-> on youth unemployment across the EAP region, failing to reach statistical significance.
+> on youth unemployment across the EAP region. This means that GDP growth alone doesn't reduce youth unemployment.
+> Even when a country's economy is growing, that doesn't automatically mean more young people find jobs.
+> The data shows this connection is too weak to be considered reliable.
 
 > In contrast, **Labor Force Participation is the most significant inverse determinant**
-> of youth unemployment, indicating structural labor market integration is more critical
-> than macroeconomic expansion.
+> of youth unemployment. Countries where more people are looking for or already have jobs tend to have lower youth unemployment. 
+> Getting young people engaged in the labour market matters more than economic growth on its own.
 
-> Additionally, **Electricity Access shows a persistent positive correlation** with unemployment,
-> potentially reflecting more robust labor reporting standards in highly electrified economies.
+> Additionally, Better access to electricity is linked to higher reported unemployment — but not for bad reasons,
+> This sounds counterintuitive, but more developed, electrified countries tend to have better systems for tracking and recording unemployment. 
+> So the number looks higher simply because it's being measured more accurately.
 
-> The robustness of these findings is confirmed by the alignment of OLS and RLM estimates,
-> which mitigate the distorting effects of extreme macroeconomic volatility.
     """)
 
 # ─────────────────────────────────────────────
